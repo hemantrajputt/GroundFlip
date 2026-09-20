@@ -1,0 +1,9 @@
+line-length = 100
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+# Template/CSS and user-facing error strings are allowed to exceed the source
+# line target; Ruff format still wraps Python expressions where it can.
+ignore = ["E501"]
+

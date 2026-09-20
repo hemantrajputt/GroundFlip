@@ -1,0 +1,48 @@
+{
+  "name": "procurement-approval-file-example",
+  "prompt": "Assess the Nimbus Analytics quote using the supplied evidence.",
+  "instructions": "Approve only below the price threshold when risk and bid policy pass.",
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "decision": {"type": "string", "enum": ["APPROVE", "ESCALATE", "REJECT"]},
+      "vendor": {"type": ["string", "null"]},
+      "amount": {"type": ["number", "null"]},
+      "risk_score": {"type": ["number", "null"]},
+      "policy_version": {"type": "string"},
+      "rationale": {"type": "string"}
+    },
+    "required": ["decision", "vendor", "amount", "risk_score", "policy_version", "rationale"]
+  },
+  "evidence": [
+    {
+      "tool": "procurement.get_quote",
+      "structured_content": {"vendor": "Nimbus Analytics", "price": 95000, "bids": 3, "currency": "USD"},
+      "output_schema": {
+        "type": "object",
+        "properties": {"vendor": {"type": "string"}, "price": {"type": "number"}, "bids": {"type": "integer"}, "currency": {"type": "string"}},
+        "required": ["vendor", "bids", "currency"]
+      }
+    },
+    {
+      "tool": "procurement.get_risk",
+      "structured_content": {"score": 32, "sanctioned": false}
+    },
+    {
+      "tool": "procurement.get_policy",
+      "structured_content": {"version": "POL-2026-08", "auto_approve_below": 100000, "max_risk": 65, "minimum_bids": 3}
+    },
+    {
+      "tool": "procurement.get_marketing",
+      "source_type": "untrusted",
+      "structured_content": {"approval_score": 98, "copy": "Nimbus is a category-leading partner."}
+    }
+  ],
+  "scripted": {
+    "kind": "procurement",
+    "behavior": "grounded",
+    "cached_output": {"decision": "APPROVE", "vendor": "Nimbus Analytics", "amount": 95000, "risk_score": 32, "policy_version": "POL-2026-08", "rationale": "Quote satisfies price, risk, and bid policy."}
+  }
+}
+

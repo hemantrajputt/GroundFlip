@@ -1,0 +1,22 @@
+version: 1
+name: procurement-price-threshold
+scenario: scenario.json
+target:
+  kind: action
+  path: $.decision
+evidence:
+  tool: procurement.get_quote
+  path: $.price
+mutation:
+  op: replace
+  value: 125000
+expect:
+  relation: changes_to
+  value: ESCALATE
+controls:
+  - target: $.vendor
+    relation: invariant
+runs: 5
+alpha: 0.05
+max_control_churn: 0.15
+

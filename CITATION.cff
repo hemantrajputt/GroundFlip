@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If GroundFlip helps your work, please cite the software and version."
+title: "GroundFlip: Causal contract testing for MCP-grounded agents"
+type: software
+authors:
+  - family-names: Kumar
+    given-names: Hemant
+version: 0.1.0
+date-released: 2026-08-07
+license: Apache-2.0
+
