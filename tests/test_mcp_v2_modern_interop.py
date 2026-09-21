@@ -3,8 +3,9 @@ import os
 import sys
 from pathlib import Path
 
-import mcp
 import pytest
+
+mcp = pytest.importorskip("mcp")
 
 Client = getattr(mcp, "Client", None)
 if Client is None:
